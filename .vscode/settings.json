@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/home/owen/miniconda3/envs/fastapi/bin/python",
+    "python.formatting.provider": "black"
+}
