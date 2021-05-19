@@ -30,12 +30,26 @@ app.mount("/static", StaticFiles(directory="../client/build/static"), name="stat
 # for a React app - or if HTMLResponse can be given without one)
 templates = Jinja2Templates(directory="../client/build/")
 
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
+    """
+    Return home page if no file is explicitly requested
+    :param request: Request received
+    :return: index.html
+    """
     return templates.TemplateResponse("index.html", {"request": request})
+
 
 @app.get("/{page_name}", response_class=HTMLResponse)
 async def read_page(request: Request, page_name: str, response: Response):
+    """
+    Return a requested file if it is found otherwise return 404 status
+    :param request: Request received
+    :param page_name: Name of the file being requested
+    :param response: response parameter for setting status manually if needed
+    :return: Contents of the file if found or 404 status otherwise
+    """
     if Path(f"../client/build/{page_name}").is_file():
         return templates.TemplateResponse(page_name, {"request": request})
     else:
